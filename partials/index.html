@@ -1,6 +1,10 @@
 {% extends "base.html" %}
-{% block javascript %}{% endblock %}
+{% block javascript %}{{ super() }}{% endblock %}
 {% block div %}{% endblock %}
+
+{% block quicksearch %}
+	{{ super() }}
+{% endblock %}
 
 {% block customheader %}
 Meest recente documenten (live updates)
@@ -8,16 +12,6 @@ Meest recente documenten (live updates)
   <form>
     <label><input class="regering" id="regering" type="checkbox" value="off">Alleen regeringsdocumenten</label>
   </form>
-  {% if length(jarigVandaag) > 0  %}
-    <p>
-      Jarig vandaag
-      {% for d in jarigVandaag %}
-      <span class="jarig">
-	<a href="persoon.html?nummer={{d.nummer}}"> {{d.roepnaam}} {{d.tussenvoegsel}} {{d.achternaam}} ({{d.afkorting}})</a>
-      </span>
-      {% endfor %}
-    </p>
-    {% endif %}
 </small>
 {% endblock %}
   

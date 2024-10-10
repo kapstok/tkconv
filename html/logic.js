@@ -1,3 +1,6 @@
+let scoreAscending = false;
+let sortedBy = "";
+
 function recentInit(f)
 {
     setInterval(getRecentDocs, 60000, f);
@@ -196,11 +199,15 @@ function orderByDate(f)
     console.log("We gaan sorteren!");
     f.foundDocs=f.foundDocs.sort(function(a,b) {
 	if(a.datum < b.datum)
-	    return 1;
+	    return scoreAscending ? 1 : -1;
 	if(a.datum > b.datum)
-	    return -1;
+	    return scoreAscending ? -1 : 1;
 	return 0;
     });
+
+    let columnText = scoreAscending ? "Datum &#x25BC" : "Datum &#x25B2";
+    document.querySelectorAll("table.striped > thead > tr > th > a")[0].innerHTML = columnText;
+    scoreAscending = !scoreAscending;
 }
 
 function orderByScore(f)
@@ -208,6 +215,7 @@ function orderByScore(f)
     f.foundDocs=f.foundDocs.sort(function(a,b) {
 	return a.score - b.score;
     });
+    document.querySelectorAll("table.striped > thead > tr > th > a")[0].innerText = "Datum";
 }
 
 // for search
@@ -336,7 +344,16 @@ async function getActiviteitDetails(f)
     }
 }
 
-
+function quickSearch(event) {
+	if (event.key !== "Enter") return;
+	event.preventDefault();/*
+	const url = new URL('/search.html');
+	url.searchParams.set("q", f.searchQuery);
+	url.searchParams.set("twomonths", f.twomonths);
+	url.searchParams.set("soorten", f.soorten);
+	document.location.href = url.toString();*/
+	document.querySelector("form.quickSearch").submit();
+}
 
 async function getSearchResults(f)
 {
